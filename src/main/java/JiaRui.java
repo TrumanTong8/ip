@@ -19,7 +19,9 @@ public class JiaRui {
         List<Task> list = new ArrayList<>();
 
         while(!line.equals("bye")){
-            String[] parts = line.trim().split("\\s+");
+
+
+            String[] parts = line.trim().split(" ",2);
             String cmd = parts[0];
 
             if(cmd.equals("list")){
@@ -48,12 +50,31 @@ public class JiaRui {
                 }
             }else {
 
-                System.out.println("____________________________________________________________\n"
-                        + "added: "
-                        + line
-                        + "\n____________________________________________________________\n");
+                Task task;
 
-                list.add(new Task(line));
+                if (cmd.equals("todo")){
+                    task = new ToDo(parts[1]);
+                } else if (cmd.equals("deadline")){
+                    String[] description = parts[1].split(" /by ", 2);
+                    task = new Deadline(description[0], description[1]);
+                } else if (cmd.equals("event")){
+                    String[] description = parts[1].split(" /from | /to", 3);
+                    task = new Event(description[0],description[1],description[2]);
+                } else {
+                    task = new Task(parts[1]);
+                }
+
+
+
+                list.add(task);
+
+                System.out.println("____________________________________________________________\n"
+                        + "Got it. I've added this task: \n"
+                        + task
+                        + "\n"
+                        + "Now you have " + list.size() + " task in the list.\n"
+                        + "____________________________________________________________\n");
+
             }
 
             line = in.nextLine();
