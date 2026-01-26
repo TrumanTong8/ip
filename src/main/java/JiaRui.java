@@ -53,6 +53,27 @@ public class JiaRui {
                             t.markAsNotCompleted();
                         }
                     }
+                }  else if (cmd.equals("delete")) {
+
+                    if (parts.length < 2) {
+                        throw new JiaRuiException("OOPS!!! Please provide a task number to delete.");
+                    }
+
+                    int taskNum = Integer.parseInt(parts[1].trim());
+                    int index = taskNum - 1;
+
+                    if (index < 0 || index >= list.size()) {
+                        throw new JiaRuiException("OOPS!!! Invalid task number.");
+                    }
+
+                    Task removed = list.remove(index);
+
+                    System.out.println("____________________________________________________________\n"
+                            + "Noted. I've removed this task:\n"
+                            + "  " + removed + "\n"
+                            + "Now you have " + list.size() + " tasks in the list.\n"
+                            + "____________________________________________________________");
+
                 } else {
 
                     Task task;
@@ -80,7 +101,10 @@ public class JiaRui {
 
                         if (description.length < 3) throw new JiaRuiException("No! An event must have /from and /to.");
                         task = new Event(description[0], description[1], description[2]);
-                    } else {
+                    }
+
+
+                    else {
                         throw new JiaRuiException("That is not a valid task!");
                     }
 
