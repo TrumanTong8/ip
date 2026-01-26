@@ -10,7 +10,7 @@ public class JiaRui {
         String name = "____________________________________________________________\n"
                 + "Hello! I'm JiaRui\n"
                 + "What can I do for you?\n"
-                + "____________________________________________________________\n";
+                + "____________________________________________________________";
 
 
         System.out.println(name);
@@ -18,66 +18,95 @@ public class JiaRui {
 
         List<Task> list = new ArrayList<>();
 
-        while(!line.equals("bye")){
+        while (!line.equals("bye")) {
 
+            try {
+                String[] parts = line.trim().split(" ", 2);
+                String cmd = parts[0];
 
-            String[] parts = line.trim().split(" ",2);
-            String cmd = parts[0];
+                if (cmd.equals("list")) {
+                    System.out.println("____________________________________________________________\n"
+                            + "Here are the tasks in your list:");
 
-            if(cmd.equals("list")){
-                System.out.println("____________________________________________________________\n"
-                        + "Here are the tasks in your list:" );
-
-                for(int i = 0; i < list.size(); i++){
-                    System.out.println( (i + 1) +". " + list.get(i).toString());
-                }
-                System.out.println("____________________________________________________________");
-
-            } else if (cmd.equals("mark") || cmd.equals("unmark")){
-                int taskNum = Integer.parseInt(parts[1]);
-                int index = taskNum - 1;
-
-                if (index < 0 || index >= list.size()){
-                    System.out.println("Invalid task number");
-                } else {
-                    Task t = list.get(index);
-
-                    if (cmd.equals("mark")){
-                        t.markAsCompleted();
-                    } else {
-                        t.markAsNotCompleted();
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.println((i + 1) + ". " + list.get(i).toString());
                     }
-                }
-            }else {
+                    System.out.println("____________________________________________________________");
 
-                Task task;
+                } else if (cmd.equals("mark") || cmd.equals("unmark")) {
 
-                if (cmd.equals("todo")){
-                    task = new ToDo(parts[1]);
-                } else if (cmd.equals("deadline")){
-                    String[] description = parts[1].split(" /by ", 2);
-                    task = new Deadline(description[0], description[1]);
-                } else if (cmd.equals("event")){
-                    String[] description = parts[1].split(" /from | /to", 3);
-                    task = new Event(description[0],description[1],description[2]);
+                    if (parts.length < 2){
+                        throw new JiaRuiException("Please provide a task number");
+                    }
+
+                    int taskNum = Integer.parseInt(parts[1]);
+                    int index = taskNum - 1;
+
+                    if (index < 0 || index >= list.size()) {
+                        throw new JiaRuiException("That is an invalid task number!");
+                    } else {
+                        Task t = list.get(index);
+
+                        if (cmd.equals("mark")) {
+                            t.markAsCompleted();
+                        } else {
+                            t.markAsNotCompleted();
+                        }
+                    }
                 } else {
-                    task = new Task(parts[1]);
+
+                    Task task;
+
+                    if (cmd.equals("todo")) {
+                        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                            throw new JiaRuiException("No! The description of a todo cannot be empty.");
+                        }
+                        task = new ToDo(parts[1]);
+
+                    } else if (cmd.equals("deadline")) {
+                        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                            throw new JiaRuiException("No! The description of a deadline cannot be empty.");
+                        }
+
+                        String[] description = parts[1].split(" /by ", 2);
+
+                        if (description.length < 2) throw new JiaRuiException("No! A deadline must have /by.");
+
+                        task = new Deadline(description[0], description[1]);
+                    } else if (cmd.equals("event")) {
+                        if (parts.length < 2) throw new JiaRuiException("No! The description of an event cannot be empty.");
+
+                        String[] description = parts[1].split(" /from | /to", 3);
+
+                        if (description.length < 3) throw new JiaRuiException("No! An event must have /from and /to.");
+                        task = new Event(description[0], description[1], description[2]);
+                    } else {
+                        throw new JiaRuiException("That is not a valid task!");
+                    }
+
+
+                    list.add(task);
+
+                    System.out.println("____________________________________________________________\n"
+                            + "Got it. I've added this task: \n"
+                            + task
+                            + "\n"
+                            + "Now you have " + list.size() + " task in the list.\n"
+                            + "____________________________________________________________\n");
+
                 }
 
 
 
-                list.add(task);
 
+            } catch (JiaRuiException e) {
                 System.out.println("____________________________________________________________\n"
-                        + "Got it. I've added this task: \n"
-                        + task
-                        + "\n"
-                        + "Now you have " + list.size() + " task in the list.\n"
-                        + "____________________________________________________________\n");
-
+                        + e.getMessage() + "\n"
+                        + "____________________________________________________________");
             }
 
             line = in.nextLine();
+
         }
 
         System.out.println("____________________________________________________________\n"
