@@ -2,8 +2,8 @@ public class Task {
     boolean completed;
     String description;
 
-    Task(String description){
-        this.completed = false;
+    Task(boolean isCompleted, String description){
+        this.completed = isCompleted;
         this.description = description;
     }
 
@@ -18,8 +18,6 @@ public class Task {
         System.out.println(s);
         System.out.println(this.toString());
         System.out.println("____________________________________________________________");
-
-
     }
 
     public void markAsNotCompleted(){
@@ -31,6 +29,14 @@ public class Task {
         System.out.println("____________________________________________________________");
 
 
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public boolean isDone(){
+        return this.completed;
     }
 
     @Override

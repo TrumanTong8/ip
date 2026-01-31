@@ -1,9 +1,8 @@
 public class ToDo extends Task{
 
-    ToDo(String description) {
-        super(description);
+    ToDo(boolean isCompleted, String description) {
+        super(isCompleted, description);
     }
-
 
     @Override
     public String toString(){
