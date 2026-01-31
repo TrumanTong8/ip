@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class Storage {
         }
     }
 
-    private Task parseLine(String line) {
+    private Task parseLine(String line) throws JiaRuiException {
         String[] p = line.split("\\s*\\|\\s*");
 
         String type = p[0];
@@ -83,7 +84,7 @@ public class Storage {
         if (type.equals("T")) {
             task = new ToDo(done, desc);
         } else if (type.equals("D")) {
-            String by = p[3];
+            LocalDateTime by = DateUtil.parseToDateTime(p[3]);
             task = new Deadline(done, desc, by);
         } else if (type.equals("E")) {
             String from = p[3];

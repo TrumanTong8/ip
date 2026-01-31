@@ -95,7 +95,7 @@ public class JiaRui {
 
                         if (description.length < 2) throw new JiaRuiException("No! A deadline is not specific enough.");
 
-                        task = new Deadline(false,description[0], description[1]);
+                        task = new Deadline(false,description[0], DateUtil.parseToDateTime(description[1]));
                     } else if (cmd.equals("event")) {
                         if (parts.length < 2) throw new JiaRuiException("No! The description of an event cannot be empty.");
 
