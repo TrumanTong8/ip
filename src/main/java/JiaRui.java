@@ -1,9 +1,13 @@
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JiaRui {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        Storage storage = new Storage();
+        List<Task> list = storage.load();
 
         Scanner in = new Scanner(System.in);
 
@@ -15,8 +19,6 @@ public class JiaRui {
 
         System.out.println(name);
         String line = in.nextLine();
-
-        List<Task> list = new ArrayList<>();
 
         while (!line.equals("bye")) {
 
@@ -82,7 +84,7 @@ public class JiaRui {
                         if (parts.length < 2 || parts[1].trim().isEmpty()) {
                             throw new JiaRuiException("No! The description of a todo cannot be empty.");
                         }
-                        task = new ToDo(parts[1]);
+                        task = new ToDo(false, parts[1]);
 
                     } else if (cmd.equals("deadline")) {
                         if (parts.length < 2 || parts[1].trim().isEmpty()) {
@@ -91,16 +93,16 @@ public class JiaRui {
 
                         String[] description = parts[1].split(" /by ", 2);
 
-                        if (description.length < 2) throw new JiaRuiException("No! A deadline must have /by.");
+                        if (description.length < 2) throw new JiaRuiException("No! A deadline is not specific enough.");
 
-                        task = new Deadline(description[0], description[1]);
+                        task = new Deadline(false,description[0], description[1]);
                     } else if (cmd.equals("event")) {
                         if (parts.length < 2) throw new JiaRuiException("No! The description of an event cannot be empty.");
 
                         String[] description = parts[1].split(" /from | /to", 3);
 
                         if (description.length < 3) throw new JiaRuiException("No! An event must have /from and /to.");
-                        task = new Event(description[0], description[1], description[2]);
+                        task = new Event(false, description[0], description[1], description[2]);
                     }
 
 
@@ -137,5 +139,6 @@ public class JiaRui {
                 + "Bye. Hope to see you again soon!\n"
                 + "____________________________________________________________\n");
 
+        storage.save(list);
     }
 }
