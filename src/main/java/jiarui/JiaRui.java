@@ -63,12 +63,21 @@ public class JiaRui {
                 saveNow();
                 break;
 
+            case "find":
+                if (cmd.args.isEmpty()){
+                    throw new JiaRuiException("No! Please provide a keyword to find.");
+                }
+                List<Task> matches = tasks.findByKeyword(cmd.args);
+                ui.showMatchingTasks(matches);
+                break;
+
             case "todo":
             case "deadline":
             case "event":
                 addTask(cmd.keyword, cmd.args);
                 saveNow();
                 break;
+
 
             default:
                 throw new JiaRuiException("No! I'm sorry, but I don't know what that means :-(");

@@ -16,6 +16,11 @@ public class Storage {
         this.filePath = Paths.get("src","data", "jiarui.txt");
     }
 
+    /**
+     * Loads the Tasks stored from the previous instance JiaRui was used
+     *
+     * @return The Task List object of the list of Task
+     */
     public List<Task> load(){
         List<Task> tasks = new ArrayList<>();
 
@@ -44,7 +49,12 @@ public class Storage {
         return tasks;
     }
 
-
+    /**
+     * Saves the list of Tasks into data/jiarui.txt for future reference
+     *
+     * @param tasks The tasks to be stored
+     * @throws IOException if there is no such file
+     */
     public void save(List<Task> tasks) throws IOException {
         Path parent = filePath.getParent();
         if (parent != null){
@@ -61,6 +71,12 @@ public class Storage {
                 StandardOpenOption.TRUNCATE_EXISTING);
     }
 
+    /**
+     * Returns the String of the task to be saved
+     *
+     * @param t The Task object to be saved
+     * @return The String encode of the Task
+     */
     private String encodeLine(Task t) {
         String done = t.isDone() ? "1" : "0";
 
@@ -75,6 +91,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Returns the Task from the saved file
+     *
+     * @param line The line from JiaRui.txt
+     * @return The Task object
+     * @throws JiaRuiException if the Task saved was not properly saved
+     */
     private Task parseLine(String line) throws JiaRuiException {
         String[] p = line.split("\\s*\\|\\s*");
 
