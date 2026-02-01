@@ -1,3 +1,5 @@
+package jiarui;
+
 public class ParsedCommand {
     public final String keyword;
     public final String args;

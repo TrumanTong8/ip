@@ -1,3 +1,5 @@
+package jiarui;
+
 public class Parser {
 
     public static ParsedCommand parse(String input) {

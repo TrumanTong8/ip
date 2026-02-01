@@ -1,3 +1,5 @@
+package jiarui;
+
 public class Task {
     boolean completed;
     String description;

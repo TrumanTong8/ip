@@ -1,3 +1,5 @@
+package jiarui;
+
 public class Event extends Task {
 
         protected String start;
