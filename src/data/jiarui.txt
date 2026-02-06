@@ -1,0 +1,2 @@
+T | 1 | eat mala
+T | 0 | sleep

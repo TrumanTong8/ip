@@ -7,84 +7,89 @@ public class JiaRui {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
+    private boolean isExit = false;
 
     public JiaRui() {
         ui = new Ui();
         storage = new Storage();
         List<Task> loaded;
-
         try {
             loaded = storage.load();
         } catch (Exception e) {
             loaded = List.of();
-            ui.showError("Shaggers! Could not load saved tasks.");
         }
         tasks = new TaskList(loaded);
     }
 
-    public void run() {
-        ui.showIntro();
+    public String getResponse(String input) {
+        ParsedCommand cmd = Parser.parse(input);
 
-        while (true) {
-            String line = ui.readCommand();
-            ParsedCommand cmd = Parser.parse(line);
-
-            if (cmd.keyword.equals("bye")) {
-                ui.showGoodbye();
-                break;
+        try {
+            String response = execute(cmd);
+            if (isExit) {
+                storage.save(tasks.asUnmodifiableList());
+            } else if (cmdChangesData(cmd.keyword)) {
+                storage.save(tasks.asUnmodifiableList());
             }
-
-            try {
-                execute(cmd);
-            } catch (JiaRuiException e) {
-                ui.showError(e.getMessage());
-            }
+            return response;
+        } catch (JiaRuiException e) {
+            return ui.formatError(e.getMessage());
+        } catch (Exception e) {
+            return ui.formatError("No!!! Something went wrong.");
         }
     }
 
-    private void execute(ParsedCommand cmd) throws JiaRuiException {
+    public boolean isExit() {
+        return isExit;
+    }
+
+    private boolean cmdChangesData(String keyword) {
+        return keyword.equals("todo") || keyword.equals("deadline") || keyword.equals("event")
+                || keyword.equals("mark") || keyword.equals("unmark") || keyword.equals("delete");
+    }
+
+    private String execute(ParsedCommand cmd) throws JiaRuiException {
+        String msg;
+
         switch (cmd.keyword) {
-            case "list":
-                ui.showTaskList(tasks.asUnmodifiableList());
-                break;
+        case "bye":
+            isExit = true;
+            return ui.formatGoodbye();
 
-            case "mark":
-                markUnmark(cmd.args, true);
-                saveNow();
-                break;
+        case "list":
+            return ui.formatTaskList(tasks.asUnmodifiableList());
 
-            case "unmark":
-                markUnmark(cmd.args, false);
-                saveNow();
-                break;
+        case "find":
+            if (cmd.args.isEmpty()) throw new JiaRuiException("OOPS!!! Please provide a keyword to find.");
+            return ui.formatMatchingTasks(tasks.findByKeyword(cmd.args));
 
-            case "delete":
-                delete(cmd.args);
-                saveNow();
-                break;
+        case "mark":
+            msg = markUnmark(cmd.args, true);
+            saveNow();
+            return msg;
 
-            case "find":
-                if (cmd.args.isEmpty()){
-                    throw new JiaRuiException("No! Please provide a keyword to find.");
-                }
-                List<Task> matches = tasks.findByKeyword(cmd.args);
-                ui.showMatchingTasks(matches);
-                break;
+        case "unmark":
+            msg = markUnmark(cmd.args, false);
+            saveNow();
+            return msg;
 
-            case "todo":
-            case "deadline":
-            case "event":
-                addTask(cmd.keyword, cmd.args);
-                saveNow();
-                break;
+        case "delete":
+            msg = delete(cmd.args);
+            saveNow();
+            return msg;
 
-
-            default:
-                throw new JiaRuiException("No! I'm sorry, but I don't know what that means :-(");
+        case "todo":
+        case "deadline":
+        case "event":
+            msg = addTask(cmd.keyword, cmd.args);
+            saveNow();
+            return msg;
+        default:
+            throw new JiaRuiException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
     }
 
-    private void markUnmark(String args, boolean done) throws JiaRuiException {
+    private String markUnmark(String args, boolean done) throws JiaRuiException {
         if (args.isEmpty()){
             throw new JiaRuiException("No! Please provide a task number.");
         }
@@ -97,13 +102,18 @@ public class JiaRui {
         Task t = tasks.get(idx);
         if (done){
             t.markAsCompleted();
+             return "Nice! I've marked this task as done:\n"
+                     + t;
+
         }
         else {
             t.markAsNotCompleted();
+            return "OK, I've marked this task as not done yet:\n"
+                    + t;
         }
     }
 
-    private void delete(String args) throws JiaRuiException {
+    private String delete(String args) throws JiaRuiException {
         if (args.isEmpty()){
             throw new JiaRuiException("No! Please provide a task number to delete.");
         }
@@ -113,10 +123,10 @@ public class JiaRui {
             throw new JiaRuiException("No! Invalid task number.");
         }
         Task removed = tasks.delete(idx);
-        ui.showDeleted(removed, tasks.size());
+        return ui.formatDeleted(removed, tasks.size());
     }
 
-    private void addTask(String keyword, String args) throws JiaRuiException {
+    private String addTask(String keyword, String args) throws JiaRuiException {
         if (args.isEmpty()){
             throw new JiaRuiException("No! The description cannot be empty.");
         }
@@ -141,7 +151,7 @@ public class JiaRui {
         }
 
         tasks.add(task);
-        ui.showAdded(task, tasks.size());
+        return ui.formatAdded(task, tasks.size());
     }
 
     private void saveNow() throws JiaRuiException {
@@ -152,7 +162,5 @@ public class JiaRui {
         }
     }
 
-    public static void main(String[] args) {
-        new JiaRui().run();
-    }
 }
+
