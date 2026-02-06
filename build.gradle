@@ -41,12 +41,15 @@ test {
 }
 
 application {
-    mainClass.set("jiarui.JiaRui")
+    mainClass.set("jiarui.Launcher")
 }
 
 shadowJar {
     archiveBaseName = "JiaRui"
     archiveClassifier = null
+    manifest {
+        attributes 'Main-Class': 'jiarui.Launcher'
+    }
 }
 
 run{
