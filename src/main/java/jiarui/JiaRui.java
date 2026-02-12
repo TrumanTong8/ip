@@ -47,6 +47,10 @@ public class JiaRui {
     }
 
     private String execute(ParsedCommand cmd) throws JiaRuiException {
+        assert cmd != null : "cmd should not be null";
+        assert cmd.keyword != null : "cmd.keyword should not be null";
+        assert cmd.args != null : "cmd.args should not be null";
+
         String msg;
 
         switch (cmd.keyword) {
@@ -58,7 +62,9 @@ public class JiaRui {
             return ui.formatTaskList(tasks.asUnmodifiableList());
 
         case "find":
-            if (cmd.args.isEmpty()) throw new JiaRuiException("OOPS!!! Please provide a keyword to find.");
+            if (cmd.args.isEmpty()){
+                throw new JiaRuiException("OOPS!!! Please provide a keyword to find.");
+            }
             return ui.formatMatchingTasks(tasks.findByKeyword(cmd.args));
 
         case "mark":
