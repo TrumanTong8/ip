@@ -99,21 +99,24 @@ public class Storage {
      * @throws JiaRuiException if the Task saved was not properly saved
      */
     private Task parseLine(String line) throws JiaRuiException {
-        String[] p = line.split("\\s*\\|\\s*");
+        String[] parts = line.split("\\s*\\|\\s*");
+        assert parts.length >= 3 : "Saved line must have at least type | done | desc";
 
-        String type = p[0];
-        boolean done = p[1].equals("1");
-        String desc = p[2];
+        String type = parts[0];
+        assert type.equals("T") || type.equals("D") || type.equals("E") : "Unknown task type in storage: " + type;
+
+        boolean done = parts[1].equals("1");
+        String desc = parts[2];
 
         Task task;
         if (type.equals("T")) {
             task = new ToDo(done, desc);
         } else if (type.equals("D")) {
-            LocalDateTime by = DateUtil.parseToDateTime(p[3]);
+            LocalDateTime by = DateUtil.parseToDateTime(parts[3]);
             task = new Deadline(done, desc, by);
         } else if (type.equals("E")) {
-            String from = p[3];
-            String to = p[4];
+            String from = parts[3];
+            String to = parts[4];
             task = new Event(done, desc, from, to);
         } else {
             throw new IllegalArgumentException("Unknown task type");
