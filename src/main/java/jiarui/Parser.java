@@ -8,6 +8,7 @@ public class Parser {
         String trimmed = input.trim();
         assert !trimmed.isEmpty() : "trimmed input should not be empty";
 
+
         String[] parts = input.trim().split("\\s+", 2);
         String keyword = parts[0];
         assert !keyword.isEmpty() : "keyword should not be empty";

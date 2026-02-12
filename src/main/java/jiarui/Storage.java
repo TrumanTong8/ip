@@ -39,7 +39,7 @@ public class Storage {
                 try{
                     Task t = parseLine(line);
                     tasks.add(t);
-                } catch (Exception e) {
+                } catch (JiaRuiException e) {
                 }
             }
         } catch (IOException e){

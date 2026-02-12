@@ -28,17 +28,7 @@ public class Ui {
      * @return Formatted intro message
      */
     public String formatIntro() {
-        return LINE + "\n"
-                + "Hello! I'm JiaRui\n"
-                + "What can I do for you?\n"
-                + LINE;
-    }
-
-    /**
-     * Prints the intro message to the console (CLI mode)
-     */
-    public void showIntro() {
-        System.out.println(formatIntro());
+        return  "Hello! I'm JiaRui\n What can I do for you?\n";
     }
 
     /**
@@ -49,15 +39,6 @@ public class Ui {
      */
     public String formatError(String message) {
         return message;
-    }
-
-    /**
-     * Prints a formatted error message to the console (CLI mode).
-     *
-     * @param message The error message content.
-     */
-    public void showError(String message) {
-        System.out.println(formatError(message));
     }
 
     /**
@@ -76,15 +57,6 @@ public class Ui {
     }
 
     /**
-     * Prints the full task list to the console (CLI mode).
-     *
-     * @param tasks The list of tasks to display.
-     */
-    public void showTaskList(List<Task> tasks) {
-        System.out.println(formatTaskList(tasks));
-    }
-
-    /**
      * Returns the message shown after a task has been added.
      *
      * @param task The task that was added.
@@ -98,16 +70,6 @@ public class Ui {
     }
 
     /**
-     * Prints the message after a task has been added (CLI mode).
-     *
-     * @param task The task that was added.
-     * @param size The updated size of the task list.
-     */
-    public void showAdded(Task task, int size) {
-        System.out.println(formatAdded(task, size));
-    }
-
-    /**
      * Returns the message shown after a task has been deleted.
      *
      * @param task The task that was deleted.
@@ -118,16 +80,6 @@ public class Ui {
         return "Noted. I've removed this task:\n"
                 + "  " + task + "\n"
                 + "Now you have " + size + " tasks in the list.\n";
-    }
-
-    /**
-     * Prints the message after a task has been deleted (CLI mode).
-     *
-     * @param task The task that was deleted.
-     * @param size The updated size of the task list.
-     */
-    public void showDeleted(Task task, int size) {
-        System.out.println(formatDeleted(task, size));
     }
 
     /**
@@ -146,15 +98,6 @@ public class Ui {
     }
 
     /**
-     * Prints the list of matched tasks to the console (CLI mode).
-     *
-     * @param matches The list of matched tasks.
-     */
-    public void showMatchingTasks(List<Task> matches) {
-        System.out.println(formatMatchingTasks(matches));
-    }
-
-    /**
      * Returns the goodbye message shown when the user exits.
      *
      * @return Formatted goodbye message.
@@ -168,5 +111,25 @@ public class Ui {
      */
     public void showGoodbye() {
         System.out.println(formatGoodbye());
+    }
+
+    /**
+     * Returns the marked message shown when the task is marked
+     *
+     * @return Formatted marked message.
+     */
+    public String formatMarked(Task t) {
+        return "Nice! I've marked this task as done:\n"
+                + t;
+    }
+
+    /**
+     * Returns the unmarked message shown when the task is unmarked
+     *
+     * @return Formatted marked message.
+     */
+    public String formatUnmarked(Task t) {
+        return "Okay! I've marked this task as undone:\n"
+                + t;
     }
 }

@@ -21,17 +21,15 @@ public class JiaRui {
         tasks = new TaskList(loaded);
     }
 
+    public String getIntro(){
+        return this.ui.formatIntro();
+    }
+
     public String getResponse(String input) {
         ParsedCommand cmd = Parser.parse(input);
 
         try {
-            String response = execute(cmd);
-            if (isExit) {
-                storage.save(tasks.asUnmodifiableList());
-            } else if (cmdChangesData(cmd.keyword)) {
-                storage.save(tasks.asUnmodifiableList());
-            }
-            return response;
+            return execute(cmd);
         } catch (JiaRuiException e) {
             return ui.formatError(e.getMessage());
         } catch (Exception e) {
@@ -108,14 +106,12 @@ public class JiaRui {
         Task t = tasks.get(idx);
         if (done){
             t.markAsCompleted();
-             return "Nice! I've marked this task as done:\n"
-                     + t;
+             return ui.formatMarked(t);
 
         }
         else {
             t.markAsNotCompleted();
-            return "OK, I've marked this task as not done yet:\n"
-                    + t;
+            return ui.formatUnmarked(t);
         }
     }
 
