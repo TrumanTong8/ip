@@ -11,6 +11,8 @@ public class Task {
     String description;
 
     Task(boolean isCompleted, String description){
+        assert description != null : "Task description should not be null";
+
         this.completed = isCompleted;
         this.description = description;
     }

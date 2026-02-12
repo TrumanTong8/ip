@@ -26,7 +26,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        //Setting up required components
 
         scrollPane = new ScrollPane();
         dialogContainer = new VBox();

@@ -61,6 +61,7 @@ public class TaskList {
      * @return The Task that got fetched
      */
     public Task get(int index) {
+        assert index >= 0 && (index < tasks.size()) : "index must be valid when calling get()";
         return tasks.get(index);
     }
 
