@@ -69,6 +69,10 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
+        dialogContainer.getChildren().addAll(
+                DialogBox.getBotDialog(jiaRui.getIntro(), botImage)
+        );
+
         sendButton.setOnMouseClicked((event) -> {
             handleUserInput();
         });

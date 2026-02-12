@@ -3,6 +3,15 @@ package jiarui;
 public class Parser {
 
     public static ParsedCommand parse(String input) {
+        if (input == null) {
+            return new ParsedCommand("", "");
+        }
+
+        String trimmed = input.trim();
+        if (trimmed.isEmpty()) {
+            return new ParsedCommand("", "");
+        }
+
         String[] parts = input.trim().split("\\s+", 2);
         String keyword = parts[0];
         String args = (parts.length < 2) ? "" : parts[1].trim();
