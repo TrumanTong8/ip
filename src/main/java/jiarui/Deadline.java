@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Deadline extends Task {
 
-    private final LocalDateTime by;
+    private LocalDateTime by;
 
     public Deadline(boolean isCompleted, String description, LocalDateTime by) {
         super(isCompleted, description);
@@ -18,6 +18,10 @@ public class Deadline extends Task {
      */
     public LocalDateTime getBy(){
             return this.by;
+    }
+
+    public void editDate(LocalDateTime time){
+        this.by = time;
     }
 
     @Override

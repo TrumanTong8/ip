@@ -132,4 +132,14 @@ public class Ui {
         return "Okay! I've marked this task as undone:\n"
                 + t;
     }
+
+
+    /**
+     * Returns the unmarked message shown when the task by is changed
+     *
+     * @return Formatted changes message.
+     */
+    public String formatChanged(Task t) {
+        return "OK! I've rescheduled this deadline:\n  " + t;
+    }
 }

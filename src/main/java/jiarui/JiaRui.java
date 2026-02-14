@@ -1,6 +1,7 @@
 package jiarui;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JiaRui {
@@ -82,6 +83,11 @@ public class JiaRui {
             saveNow();
             return msg;
 
+        case "reschedule":
+            msg = changeDate(cmd.args);
+            saveNow();
+            return msg;
+
         case "todo":
         case "deadline":
         case "event":
@@ -91,6 +97,35 @@ public class JiaRui {
         default:
             throw new JiaRuiException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
+    }
+
+    private String changeDate(String args) throws JiaRuiException{
+        if (args.isEmpty()){
+            throw new JiaRuiException("No! Please provide a task number.");
+        }
+
+        String[] p = args.split("\\s+", 2);
+        int idx = Parser.parseIndex(p[0]);
+
+        if (idx < 0 || idx >= tasks.size()){
+            throw new JiaRuiException("No! Invalid task number.");
+        }
+
+        Task t = tasks.get(idx);
+        if (!(t instanceof Deadline)){
+            throw new JiaRuiException("No! Only deadline can be rescheduled.");
+        }
+
+        String newByStr = p[1].trim();
+        if (newByStr.isEmpty()){
+            throw new JiaRuiException("No! The new deadline cannot be empty.");
+        }
+
+        LocalDateTime newBy = DateUtil.parseToDateTime(newByStr);
+        Deadline d = (Deadline) t;
+        d.editDate(newBy);
+
+        return ui.formatChanged(t);
     }
 
     private String markUnmark(String args, boolean done) throws JiaRuiException {
