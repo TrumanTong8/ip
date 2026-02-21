@@ -2,9 +2,6 @@
 
 Jiarui is a kind and happy simple task manager that helps you track todos, deadlines, and events using short command!
 
----
-![Ui.png](Ui.png)
-
 --- 
 ## Quick Start
 
