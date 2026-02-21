@@ -1,4 +1,4 @@
 T | 0 | eat mala
 T | 0 | sleep
 T | 0 | eat
-D | 0 | sleep | 2026-11-11T00:00
+E | 0 | attend lecture | 2016-12-12T00:00 | 2016-12-13T00:00

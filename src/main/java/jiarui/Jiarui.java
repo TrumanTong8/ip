@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class JiaRui {
+public class Jiarui {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
     private boolean isExit = false;
 
-    public JiaRui() {
+    public Jiarui() {
         ui = new Ui();
         storage = new Storage();
         List<Task> loaded;
@@ -184,7 +184,8 @@ public class JiaRui {
             if (p.length < 3){
                 throw new JiaRuiException("No! An event must have /from and /to.");
             }
-            task = new Event(false, p[0].trim(), p[1].trim(), p[2].trim());
+            task = new Event(false, p[0].trim(),
+                    DateUtil.parseToDateTime(p[1].trim()), DateUtil.parseToDateTime(p[2].trim()));
         }
 
         tasks.add(task);

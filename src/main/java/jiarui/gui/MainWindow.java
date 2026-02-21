@@ -5,9 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import jiarui.JiaRui;
+import jiarui.Jiarui;
 
 public class MainWindow {
     @FXML
@@ -19,12 +18,12 @@ public class MainWindow {
     @FXML
     private Button sendButton;
 
-    private JiaRui jiaRui;
+    private Jiarui jiaRui;
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private final Image botImage = new Image(this.getClass().getResourceAsStream("/images/bot.png"));
 
 
-    public void setJiaRui(JiaRui jiaRui) {
+    public void setJiaRui(Jiarui jiaRui) {
         this.jiaRui = jiaRui;
     }
 

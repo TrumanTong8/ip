@@ -115,8 +115,8 @@ public class Storage {
             LocalDateTime by = DateUtil.parseToDateTime(parts[3]);
             task = new Deadline(done, desc, by);
         } else if (type.equals("E")) {
-            String from = parts[3];
-            String to = parts[4];
+            LocalDateTime from = DateUtil.parseToDateTime(parts[3]);
+            LocalDateTime to = DateUtil.parseToDateTime(parts[4]);
             task = new Event(done, desc, from, to);
         } else {
             throw new IllegalArgumentException("Unknown task type");

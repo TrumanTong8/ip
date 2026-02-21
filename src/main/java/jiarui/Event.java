@@ -1,11 +1,13 @@
 package jiarui;
 
+import java.time.LocalDateTime;
+
 public class Event extends Task {
 
-    protected String start;
-    protected String end;
+    protected LocalDateTime start;
+    protected LocalDateTime end;
 
-    public Event(boolean isCompleted, String description, String start, String end) {
+    public Event(boolean isCompleted, String description, LocalDateTime start, LocalDateTime end) {
             super(isCompleted, description);
             this.start = start;
             this.end = end;
@@ -16,7 +18,7 @@ public class Event extends Task {
      *
      * @return The starting date of the Event
      */
-    public String getStart() {
+    public LocalDateTime getStart() {
         return this.start;
     }
 
@@ -25,12 +27,12 @@ public class Event extends Task {
      *
      * @return The ending date of the Event
      */
-    public String getEnd(){
+    public LocalDateTime getEnd(){
             return this.end;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start + " to: " + end  +")";
+        return "[E]" + super.toString() + " (from: " + DateUtil.format(start) + " to: " + DateUtil.format(end)  +")";
     }
 }

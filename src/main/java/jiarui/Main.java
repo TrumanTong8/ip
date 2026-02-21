@@ -14,7 +14,7 @@ import jiarui.gui.DialogBox;
 
 public class Main extends Application {
 
-    private final JiaRui jiaRui = new JiaRui();
+    private final Jiarui jiaRui = new Jiarui();
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private final Image botImage = new Image(this.getClass().getResourceAsStream("/images/bot.png"));
 
