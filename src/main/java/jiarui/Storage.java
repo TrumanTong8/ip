@@ -17,7 +17,7 @@ public class Storage {
     }
 
     /**
-     * Loads the Tasks stored from the previous instance JiaRui was used
+     * Loads the Tasks stored from the previous instance Jiarui was used
      *
      * @return The Task List object of the list of Task
      */
@@ -39,7 +39,7 @@ public class Storage {
                 try{
                     Task t = parseLine(line);
                     tasks.add(t);
-                } catch (JiaRuiException e) {
+                } catch (JiaruiException e) {
                 }
             }
         } catch (IOException e){
@@ -94,11 +94,11 @@ public class Storage {
     /**
      * Returns the Task from the saved file
      *
-     * @param line The line from JiaRui.txt
+     * @param line The line from Jiarui.txt
      * @return The Task object
-     * @throws JiaRuiException if the Task saved was not properly saved
+     * @throws JiaruiException if the Task saved was not properly saved
      */
-    private Task parseLine(String line) throws JiaRuiException {
+    private Task parseLine(String line) throws JiaruiException {
         String[] parts = line.split("\\s*\\|\\s*");
         assert parts.length >= 3 : "Saved line must have at least type | done | desc";
 

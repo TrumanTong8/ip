@@ -3,7 +3,9 @@
 Jiarui is a kind and happy simple task manager that helps you track todos, deadlines, and events using short command!
 
 ---
+![Ui.png](Ui.png)
 
+--- 
 ## Quick Start
 
 ### Requirements
@@ -133,7 +135,7 @@ mark 2
 
 ---
 
-## ↩ Unmarking a Task
+## 🔄 Unmarking a Task
 
 Marks a task as not completed.
 
@@ -149,7 +151,7 @@ unmark 2
 
 ---
 
-## 🔎 Find Tasks
+## 🕵🏻‍♂️ Find Tasks
 
 Find tasks whose description contains a keyword (case-insensitive).
 
@@ -210,7 +212,7 @@ bye
 
 ---
 
-# ⚠️ Error Handling
+# 🚨 Error Handling
 
 If an invalid command is entered, Jiarui will respond with an error message.
 

@@ -31,7 +31,7 @@ public class Jiarui {
 
         try {
             return execute(cmd);
-        } catch (JiaRuiException e) {
+        } catch (JiaruiException e) {
             return ui.formatError(e.getMessage());
         } catch (Exception e) {
             return ui.formatError("No!!! Something went wrong.");
@@ -47,7 +47,7 @@ public class Jiarui {
                 || keyword.equals("mark") || keyword.equals("unmark") || keyword.equals("delete");
     }
 
-    private String execute(ParsedCommand cmd) throws JiaRuiException {
+    private String execute(ParsedCommand cmd) throws JiaruiException {
         assert cmd != null : "cmd should not be null";
         assert cmd.keyword != null : "cmd.keyword should not be null";
         assert cmd.args != null : "cmd.args should not be null";
@@ -64,7 +64,7 @@ public class Jiarui {
 
         case "find":
             if (cmd.args.isEmpty()){
-                throw new JiaRuiException("OOPS!!! Please provide a keyword to find.");
+                throw new JiaruiException("OOPS!!! Please provide a keyword to find.");
             }
             return ui.formatMatchingTasks(tasks.findByKeyword(cmd.args));
 
@@ -95,30 +95,30 @@ public class Jiarui {
             saveNow();
             return msg;
         default:
-            throw new JiaRuiException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+            throw new JiaruiException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
     }
 
-    private String changeDate(String args) throws JiaRuiException{
+    private String changeDate(String args) throws JiaruiException{
         if (args.isEmpty()){
-            throw new JiaRuiException("No! Please provide a task number.");
+            throw new JiaruiException("No! Please provide a task number.");
         }
 
         String[] p = args.split("\\s+", 2);
         int idx = Parser.parseIndex(p[0]);
 
         if (idx < 0 || idx >= tasks.size()){
-            throw new JiaRuiException("No! Invalid task number.");
+            throw new JiaruiException("No! Invalid task number.");
         }
 
         Task t = tasks.get(idx);
         if (!(t instanceof Deadline)){
-            throw new JiaRuiException("No! Only deadline can be rescheduled.");
+            throw new JiaruiException("No! Only deadline can be rescheduled.");
         }
 
         String newByStr = p[1].trim();
         if (newByStr.isEmpty()){
-            throw new JiaRuiException("No! The new deadline cannot be empty.");
+            throw new JiaruiException("No! The new deadline cannot be empty.");
         }
 
         LocalDateTime newBy = DateUtil.parseToDateTime(newByStr);
@@ -128,14 +128,14 @@ public class Jiarui {
         return ui.formatChanged(t);
     }
 
-    private String markUnmark(String args, boolean done) throws JiaRuiException {
+    private String markUnmark(String args, boolean done) throws JiaruiException {
         if (args.isEmpty()){
-            throw new JiaRuiException("No! Please provide a task number.");
+            throw new JiaruiException("No! Please provide a task number.");
         }
         int idx = Parser.parseIndex(args);
 
         if (idx < 0 || idx >= tasks.size()){
-            throw new JiaRuiException("No! Invalid task number.");
+            throw new JiaruiException("No! Invalid task number.");
         }
 
         Task t = tasks.get(idx);
@@ -150,22 +150,22 @@ public class Jiarui {
         }
     }
 
-    private String delete(String args) throws JiaRuiException {
+    private String delete(String args) throws JiaruiException {
         if (args.isEmpty()){
-            throw new JiaRuiException("No! Please provide a task number to delete.");
+            throw new JiaruiException("No! Please provide a task number to delete.");
         }
         int idx = Parser.parseIndex(args);
 
         if (idx < 0 || idx >= tasks.size()){
-            throw new JiaRuiException("No! Invalid task number.");
+            throw new JiaruiException("No! Invalid task number.");
         }
         Task removed = tasks.delete(idx);
         return ui.formatDeleted(removed, tasks.size());
     }
 
-    private String addTask(String keyword, String args) throws JiaRuiException {
+    private String addTask(String keyword, String args) throws JiaruiException {
         if (args.isEmpty()){
-            throw new JiaRuiException("No! The description cannot be empty.");
+            throw new JiaruiException("No! The description cannot be empty.");
         }
 
         Task task;
@@ -175,14 +175,14 @@ public class Jiarui {
         } else if (keyword.equals("deadline")) {
             String[] p = args.split(" /by ", 2);
             if (p.length < 2){
-                throw new JiaRuiException("No! A deadline must have /by.");
+                throw new JiaruiException("No! A deadline must have /by.");
             }
             task = new Deadline(false, p[0].trim(), DateUtil.parseToDateTime(p[1]));
 
         } else {
             String[] p = args.split(" /from | /to", 3);
             if (p.length < 3){
-                throw new JiaRuiException("No! An event must have /from and /to.");
+                throw new JiaruiException("No! An event must have /from and /to.");
             }
             task = new Event(false, p[0].trim(),
                     DateUtil.parseToDateTime(p[1].trim()), DateUtil.parseToDateTime(p[2].trim()));
@@ -192,11 +192,11 @@ public class Jiarui {
         return ui.formatAdded(task, tasks.size());
     }
 
-    private void saveNow() throws JiaRuiException {
+    private void saveNow() throws JiaruiException {
         try {
             storage.save(tasks.asUnmodifiableList());
         } catch (IOException e) {
-            throw new JiaRuiException("No! I couldn't save your tasks.");
+            throw new JiaruiException("No! I couldn't save your tasks.");
         }
     }
 

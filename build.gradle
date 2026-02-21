@@ -48,7 +48,7 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "JiaRui"
+    archiveBaseName = "Jiarui"
     archiveClassifier = null
     manifest {
         attributes 'Main-Class': 'jiarui.Launcher'

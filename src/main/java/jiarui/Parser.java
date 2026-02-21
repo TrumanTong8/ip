@@ -17,12 +17,12 @@ public class Parser {
         return new ParsedCommand(keyword, args);
     }
 
-    public static int parseIndex(String arg) throws JiaRuiException {
+    public static int parseIndex(String arg) throws JiaruiException {
         try {
             int num = Integer.parseInt(arg.trim());
             return num - 1;
         } catch (NumberFormatException e) {
-            throw new JiaRuiException("No! Task number must be a number.");
+            throw new JiaruiException("No! Task number must be a number.");
         }
     }
 }

@@ -1,6 +1,8 @@
 package jiarui;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -10,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import jiarui.gui.DialogBox;
 
 public class Main extends Application {
@@ -92,6 +95,12 @@ public class Main extends Application {
                 DialogBox.getBotDialog(dukeText, botImage)
         );
         userInput.clear();
+
+        if (jiaRui.isExit()) {
+            PauseTransition pause = new PauseTransition(Duration.millis(800));
+            pause.setOnFinished(e -> Platform.exit());
+            pause.play();
+        }
     }
     public static void main(String[] args) {
         launch(args);
