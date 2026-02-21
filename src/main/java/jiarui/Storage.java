@@ -8,9 +8,11 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class Storage {
     private final Path filePath;
+    private static final DateTimeFormatter STORE_FMT = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     public Storage() {
         this.filePath = Paths.get("src","data", "jiarui.txt");
@@ -83,9 +85,11 @@ public class Storage {
         if (t instanceof ToDo) {
             return "T | " + done + " | " + t.getDescription();
         } else if (t instanceof Deadline d) {
-            return "D | " + done + " | " + d.getDescription() + " | " + d.getBy();
+            return "D | " + done + " | " + d.getDescription() + " | " + d.getBy().format(STORE_FMT);
         } else if (t instanceof Event e) {
-            return "E | " + done + " | " + e.getDescription() + " | " + e.getStart() + " | " + e.getEnd();
+            return "E | " + done + " | " + e.getDescription()
+                    + " | " + e.getStart().format(STORE_FMT)
+                    + " | " + e.getEnd().format(STORE_FMT);
         } else {
             return "T | " + done + " | " + t.getDescription();
         }
@@ -112,11 +116,11 @@ public class Storage {
         if (type.equals("T")) {
             task = new ToDo(done, desc);
         } else if (type.equals("D")) {
-            LocalDateTime by = DateUtil.parseToDateTime(parts[3]);
+            LocalDateTime by = LocalDateTime.parse(parts[3]); // ISO format
             task = new Deadline(done, desc, by);
         } else if (type.equals("E")) {
-            LocalDateTime from = DateUtil.parseToDateTime(parts[3]);
-            LocalDateTime to = DateUtil.parseToDateTime(parts[4]);
+            LocalDateTime from = LocalDateTime.parse(parts[3]);
+            LocalDateTime to = LocalDateTime.parse(parts[4]);
             task = new Event(done, desc, from, to);
         } else {
             throw new IllegalArgumentException("Unknown task type");
