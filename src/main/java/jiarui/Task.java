@@ -7,13 +7,13 @@ package jiarui;
  */
 
 public class Task {
-    boolean completed;
+    boolean isCompleted;
     String description;
 
     Task(boolean isCompleted, String description){
         assert description != null : "Task description should not be null";
 
-        this.completed = isCompleted;
+        this.isCompleted = isCompleted;
         this.description = description;
     }
 
@@ -24,7 +24,7 @@ public class Task {
      * @return the String associated to whether the task si completed
      */
     public String getStatusIcon(){
-        return(completed? "X" : " ");
+        return(isCompleted? "X" : " ");
     }
 
     /**
@@ -32,7 +32,7 @@ public class Task {
      *
      */
     public void markAsCompleted(){
-        completed = true;
+        isCompleted = true;
         System.out.println("____________________________________________________________");
         String s = "Nice! I've marked this task as done:";
         System.out.println(s);
@@ -45,7 +45,7 @@ public class Task {
      *
      */
     public void markAsNotCompleted(){
-        completed = false;
+        isCompleted = false;
         System.out.println("____________________________________________________________");
         String s = "OK, I've marked this task as not done yet:";
         System.out.println(s);
@@ -70,7 +70,7 @@ public class Task {
      * @return The boolean value of the completion ofthe task
      */
     public boolean isDone(){
-        return this.completed;
+        return this.isCompleted;
     }
 
     @Override

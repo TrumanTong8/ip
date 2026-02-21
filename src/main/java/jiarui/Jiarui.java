@@ -143,8 +143,7 @@ public class Jiarui {
             t.markAsCompleted();
              return ui.formatMarked(t);
 
-        }
-        else {
+        } else {
             t.markAsNotCompleted();
             return ui.formatUnmarked(t);
         }
